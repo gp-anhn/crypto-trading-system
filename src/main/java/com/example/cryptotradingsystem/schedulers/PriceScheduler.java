@@ -1,6 +1,7 @@
 package com.example.cryptotradingsystem.schedulers;
 
 import com.example.cryptotradingsystem.entities.AggregatedPrice;
+import com.example.cryptotradingsystem.enums.Currency;
 import com.example.cryptotradingsystem.services.PriceService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,8 +25,8 @@ public class PriceScheduler {
     // Fetch new data every 10 seconds
     @Scheduled(fixedRate = 10000)
     public void fetchPrices() {
-        fetchAndSave("BTCUSDT");
-        fetchAndSave("ETHUSDT");
+        fetchAndSave(Currency.BTCUSDT.name());
+        fetchAndSave(Currency.ETHUSDT.name());
     }
 
     private void fetchAndSave(String currency) {

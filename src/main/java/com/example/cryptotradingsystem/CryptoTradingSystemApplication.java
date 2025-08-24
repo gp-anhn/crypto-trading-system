@@ -1,6 +1,7 @@
 package com.example.cryptotradingsystem;
 
 import com.example.cryptotradingsystem.entities.WalletBalance;
+import com.example.cryptotradingsystem.enums.Currency;
 import com.example.cryptotradingsystem.repositories.WalletBalanceRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,9 +20,9 @@ public class CryptoTradingSystemApplication {
     @Bean
     CommandLineRunner init(WalletBalanceRepository walletBalanceRepository) {
         return args -> {
-            walletBalanceRepository.save(new WalletBalance( 1L, "USDT", 50000.0));
-            walletBalanceRepository.save(new WalletBalance(1L, "BTC", 0.0));
-            walletBalanceRepository.save(new WalletBalance(1L, "ETH", 0.0));
+            walletBalanceRepository.save(new WalletBalance( 1L, Currency.USDT.name(), 50000.0));
+            walletBalanceRepository.save(new WalletBalance(1L, Currency.BTCUSDT.name(), 0.0));
+            walletBalanceRepository.save(new WalletBalance(1L, Currency.ETHUSDT.name(), 0.0));
         };
     }
 }
