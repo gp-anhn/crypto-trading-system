@@ -1,25 +1,39 @@
 package com.example.cryptotradingsystem.controllers;
 
 import com.example.cryptotradingsystem.dtos.TradeDTO;
+import com.example.cryptotradingsystem.enums.Action;
 import com.example.cryptotradingsystem.services.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/trade")
+@RequestMapping("/api/transaction")
 @RequiredArgsConstructor
 public class TradeController {
     @Autowired
     private TradeService tradeService;
 
-    @PostMapping
-    public ResponseEntity<String> getBalances(@RequestBody TradeDTO tradeDTO) {
+    @PostMapping("/trade")
+    public ResponseEntity<String> trade(@RequestBody TradeDTO tradeDTO) {
         tradeService.trade(tradeDTO);
-        return ResponseEntity.ok().build();
+        String message = "";
+        switch (tradeDTO.getAction()) {
+            case Action.BUY:
+                message = "bought";
+                break;
+            case Action.SELL:
+                message = "sold";
+                break;
+            default:
+                break;
+        }
+        return ResponseEntity.ok("Successfully " + message + " " + tradeDTO.getAmount() + " " + tradeDTO.getCurrency());
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<String> list() {
+        return ResponseEntity.ok(tradeService.getTransactionHistory().toString());
     }
 }

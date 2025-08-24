@@ -1,6 +1,7 @@
 package com.example.cryptotradingsystem.services;
 
 import com.example.cryptotradingsystem.entities.WalletBalance;
+import com.example.cryptotradingsystem.enums.Currency;
 import com.example.cryptotradingsystem.repositories.WalletBalanceRepository;
 import com.google.gson.JsonArray;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,11 @@ public class WalletService {
     }
 
     @Transactional
-    public void updateWalletBalances(Long userId, String fromCurrency, double fromAmount,
-                                     String toCurrency, double toAmount) {
+    public void updateWalletBalances(Long userId, Currency fromCurrency, double fromAmount,
+                                     Currency toCurrency, double toAmount) {
 
         // Deduct fromCurrency
-        WalletBalance fromWallet = walletBalanceRepository.findByUserIdAndCurrency(userId, fromCurrency)
+        WalletBalance fromWallet = walletBalanceRepository.findByUserIdAndCurrency(userId, fromCurrency.name())
                 .orElseThrow(() -> new RuntimeException("Wallet not found: " + fromCurrency));
 
         if (fromWallet.getBalance() < fromAmount) {
@@ -38,7 +39,7 @@ public class WalletService {
         walletBalanceRepository.save(fromWallet);
 
         // Add toCurrency
-        WalletBalance toWallet = walletBalanceRepository.findByUserIdAndCurrency(userId, toCurrency)
+        WalletBalance toWallet = walletBalanceRepository.findByUserIdAndCurrency(userId, toCurrency.name())
                 .orElseThrow(() -> new RuntimeException("Wallet not found: " + toCurrency));
 
         toWallet.setBalance(toWallet.getBalance() + toAmount);

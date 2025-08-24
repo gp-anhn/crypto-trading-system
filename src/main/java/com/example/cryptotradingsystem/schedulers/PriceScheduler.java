@@ -25,11 +25,11 @@ public class PriceScheduler {
     // Fetch new data every 10 seconds
     @Scheduled(fixedRate = 10000)
     public void fetchPrices() {
-        fetchAndSave(Currency.BTCUSDT.name());
-        fetchAndSave(Currency.ETHUSDT.name());
+        fetchAndSave(Currency.BTCUSDT);
+        fetchAndSave(Currency.ETHUSDT);
     }
 
-    private void fetchAndSave(String currency) {
+    private void fetchAndSave(Currency currency) {
         try {
             // Binance
             String binanceUrl = "https://api.binance.com/api/v3/ticker/bookTicker?symbol=" + currency;
@@ -46,7 +46,7 @@ public class PriceScheduler {
             double huobiBid = 0, huobiAsk = Double.MAX_VALUE;
             for (int i = 0; i < data.size(); i++) {
                 JsonObject obj = data.get(i).getAsJsonObject();
-                if (obj.get("symbol").toString().equalsIgnoreCase(currency.toLowerCase())) {
+                if (obj.get("symbol").toString().equalsIgnoreCase(currency.name().toLowerCase())) {
                     huobiBid = obj.get("bid").getAsDouble();
                     huobiAsk = obj.get("ask").getAsDouble();
                     break;

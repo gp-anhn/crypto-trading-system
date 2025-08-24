@@ -1,6 +1,7 @@
 package com.example.cryptotradingsystem.services;
 
 import com.example.cryptotradingsystem.entities.AggregatedPrice;
+import com.example.cryptotradingsystem.enums.Currency;
 import com.example.cryptotradingsystem.repositories.AggregatedPriceRepository;
 import com.google.gson.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PriceService {
         return data;
     }
 
-    public AggregatedPrice getLatestPrice(String currency) {
+    public AggregatedPrice getLatestPrice(Currency currency) {
         return aggregatedPriceRepository.findAggregatedPriceByCurrency(currency).orElse(null);
     }
 }

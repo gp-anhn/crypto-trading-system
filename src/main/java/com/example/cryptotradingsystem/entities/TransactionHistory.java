@@ -1,41 +1,45 @@
 package com.example.cryptotradingsystem.entities;
 
+
+import com.example.cryptotradingsystem.enums.Action;
 import com.example.cryptotradingsystem.enums.Currency;
 import com.google.gson.JsonObject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-public class AggregatedPrice {
+public class TransactionHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long transId;
 
+    private Long userId;
     private Currency currency;
-    private Double bestBid;
-    private Double bestAsk;
+    private Action action;
+    private Double price;
+    private Double amount;
     private LocalDateTime timestamp;
-
-    public AggregatedPrice() {
-    }
 
     public JsonObject toJson() {
         JsonObject jsonObject = new JsonObject();
 
+        jsonObject.addProperty("transId", transId);
         jsonObject.addProperty("currency", currency.name());
-        jsonObject.addProperty("bestBid", bestBid);
-        jsonObject.addProperty("bestAsk", bestAsk);
-        jsonObject.addProperty("timestamp", String.valueOf(timestamp));
+        jsonObject.addProperty("action", action.name());
+        jsonObject.addProperty("price", price);
+        jsonObject.addProperty("amount", amount);
 
         return jsonObject;
     }
