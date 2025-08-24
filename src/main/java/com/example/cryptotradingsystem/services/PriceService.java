@@ -30,4 +30,8 @@ public class PriceService {
         });
         return data;
     }
+
+    public AggregatedPrice getLatestPrice(String currency) {
+        return aggregatedPriceRepository.findAggregatedPriceByCurrency(currency).orElse(null);
+    }
 }
