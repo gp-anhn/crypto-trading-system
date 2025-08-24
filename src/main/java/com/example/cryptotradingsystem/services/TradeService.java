@@ -27,7 +27,7 @@ public class TradeService {
 
     @Transactional
     public void trade(TradeDTO tradeDTO) {
-        AggregatedPrice price = priceService.getLatestPrice(tradeDTO.getCurrency());
+        AggregatedPrice price = priceService.getLatestPrice(tradeDTO.getCurrency().name() + Currency.USDT.name());
         if (price == null) {
             throw new RuntimeException("No price available");
         }

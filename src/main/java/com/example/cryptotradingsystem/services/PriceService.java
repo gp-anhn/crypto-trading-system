@@ -15,7 +15,7 @@ public class PriceService {
     private AggregatedPriceRepository aggregatedPriceRepository;
 
     public void save(AggregatedPrice price) {
-        aggregatedPriceRepository.findAggregatedPriceByCurrency(price.getCurrency()).map(existing -> {
+        aggregatedPriceRepository.findAggregatedPriceBySymbol(price.getSymbol()).map(existing -> {
             existing.setBestBid(price.getBestBid());
             existing.setBestAsk(price.getBestAsk());
             existing.setTimestamp(LocalDateTime.now());
@@ -32,7 +32,7 @@ public class PriceService {
         return data;
     }
 
-    public AggregatedPrice getLatestPrice(Currency currency) {
-        return aggregatedPriceRepository.findAggregatedPriceByCurrency(currency).orElse(null);
+    public AggregatedPrice getLatestPrice(String symbol) {
+        return aggregatedPriceRepository.findAggregatedPriceBySymbol(symbol).orElse(null);
     }
 }

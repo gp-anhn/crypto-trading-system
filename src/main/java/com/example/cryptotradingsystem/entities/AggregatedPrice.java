@@ -1,6 +1,5 @@
 package com.example.cryptotradingsystem.entities;
 
-import com.example.cryptotradingsystem.enums.Currency;
 import com.google.gson.JsonObject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +20,7 @@ public class AggregatedPrice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Currency currency;
+    private String symbol;
     private Double bestBid;
     private Double bestAsk;
     private LocalDateTime timestamp;
@@ -32,7 +31,7 @@ public class AggregatedPrice {
     public JsonObject toJson() {
         JsonObject jsonObject = new JsonObject();
 
-        jsonObject.addProperty("currency", currency.name());
+        jsonObject.addProperty("symbol", symbol);
         jsonObject.addProperty("bestBid", bestBid);
         jsonObject.addProperty("bestAsk", bestAsk);
         jsonObject.addProperty("timestamp", String.valueOf(timestamp));

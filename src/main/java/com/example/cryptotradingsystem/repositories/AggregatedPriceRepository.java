@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface AggregatedPriceRepository extends JpaRepository<AggregatedPrice, Long> {
-    Optional<AggregatedPrice> findAggregatedPriceByCurrency(Currency currency);
+    Optional<AggregatedPrice> findAggregatedPriceBySymbol(String symbol);
 }

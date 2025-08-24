@@ -25,14 +25,14 @@ public class PriceScheduler {
     // Fetch new data every 10 seconds
     @Scheduled(fixedRate = 10000)
     public void fetchPrices() {
-        fetchAndSave(Currency.BTCUSDT);
-        fetchAndSave(Currency.ETHUSDT);
+        fetchAndSave(Currency.BTC);
+        fetchAndSave(Currency.ETH);
     }
 
     private void fetchAndSave(Currency currency) {
         try {
             // Binance
-            String binanceUrl = "https://api.binance.com/api/v3/ticker/bookTicker?symbol=" + currency;
+            String binanceUrl = "https://api.binance.com/api/v3/ticker/bookTicker?symbol=" + currency + Currency.USDT;
             JsonObject binance = gson.fromJson(restTemplate.getForObject(binanceUrl, String.class), JsonObject.class);
 
             double binanceBid = binance.get("bidPrice").getAsDouble();
@@ -46,7 +46,7 @@ public class PriceScheduler {
             double huobiBid = 0, huobiAsk = Double.MAX_VALUE;
             for (int i = 0; i < data.size(); i++) {
                 JsonObject obj = data.get(i).getAsJsonObject();
-                if (obj.get("symbol").toString().equalsIgnoreCase(currency.name().toLowerCase())) {
+                if (obj.get("symbol").toString().equalsIgnoreCase((currency.name() + Currency.USDT.name()).toLowerCase())) {
                     huobiBid = obj.get("bid").getAsDouble();
                     huobiAsk = obj.get("ask").getAsDouble();
                     break;
@@ -57,7 +57,7 @@ public class PriceScheduler {
             double bestAsk = Math.min(binanceAsk, huobiAsk);
 
             AggregatedPrice agg = AggregatedPrice.builder()
-                    .currency(currency)
+                    .symbol(currency.name() + Currency.USDT.name())
                     .bestBid(bestBid)
                     .bestAsk(bestAsk)
                     .timestamp(LocalDateTime.now())

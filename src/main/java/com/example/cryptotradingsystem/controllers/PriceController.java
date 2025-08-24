@@ -16,7 +16,7 @@ public class PriceController {
     private PriceService priceService;
 
     @GetMapping
-    public ResponseEntity<String> getBalances() {
+    public ResponseEntity<String> getLastPrice() {
         return ResponseEntity.ok(priceService.getLatestPrice().toString());
     }
 }
