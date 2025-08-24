@@ -15,7 +15,7 @@ public class PriceController {
     @Autowired
     private PriceService priceService;
 
-    @GetMapping
+    @GetMapping("/latest")
     public ResponseEntity<String> getLastPrice() {
         return ResponseEntity.ok(priceService.getLatestPrice().toString());
     }
