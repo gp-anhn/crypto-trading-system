@@ -1,0 +1,11 @@
+package com.example.cryptotradingsystem.repositories;
+
+import com.example.cryptotradingsystem.entities.WalletBalance;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface WalletBalanceRepository extends JpaRepository<WalletBalance, Long> {
+    List<WalletBalance> findByUserId(Long userId);
+    WalletBalance findByUserIdAndCurrency(Long userId, String currency);
+}
