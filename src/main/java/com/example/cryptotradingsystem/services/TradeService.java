@@ -1,5 +1,6 @@
 package com.example.cryptotradingsystem.services;
 
+import com.example.cryptotradingsystem.constants.Constant;
 import com.example.cryptotradingsystem.dtos.TradeDTO;
 import com.example.cryptotradingsystem.entities.AggregatedPrice;
 import com.example.cryptotradingsystem.entities.TransactionHistory;
@@ -24,8 +25,6 @@ public class TradeService {
     @Autowired
     private TransactionHistoryRepository transactionHistoryRepository;
 
-    private static final Long USER_ID = 1L; // Demo user ID
-
     @Transactional
     public void trade(TradeDTO tradeDTO) {
         AggregatedPrice price = priceService.getLatestPrice(tradeDTO.getCurrency());
@@ -34,7 +33,7 @@ public class TradeService {
         }
 
         TransactionHistory.TransactionHistoryBuilder transactionHistoryBuilder = TransactionHistory.builder()
-                .userId(USER_ID)
+                .userId(Constant.USER_ID)
                 .currency(tradeDTO.getCurrency())
                 .action(tradeDTO.getAction())
                 .amount(tradeDTO.getAmount())
@@ -42,11 +41,11 @@ public class TradeService {
 
         switch (tradeDTO.getAction()) {
             case Action.BUY:
-                walletService.updateWalletBalances(USER_ID, Currency.USDT, tradeDTO.getAmount() * price.getBestAsk(), tradeDTO.getCurrency(), tradeDTO.getAmount());
+                walletService.updateWalletBalances(Constant.USER_ID, Currency.USDT, tradeDTO.getAmount() * price.getBestAsk(), tradeDTO.getCurrency(), tradeDTO.getAmount());
                 transactionHistoryBuilder.price(price.getBestAsk());
                 break;
             case Action.SELL:
-                walletService.updateWalletBalances(USER_ID, tradeDTO.getCurrency(), tradeDTO.getAmount(), Currency.USDT, tradeDTO.getAmount() * price.getBestBid());
+                walletService.updateWalletBalances(Constant.USER_ID, tradeDTO.getCurrency(), tradeDTO.getAmount(), Currency.USDT, tradeDTO.getAmount() * price.getBestBid());
                 transactionHistoryBuilder.price(price.getBestBid());
                 break;
             default:
@@ -58,7 +57,7 @@ public class TradeService {
 
     public JsonArray getTransactionHistory() {
         JsonArray data = new JsonArray();
-        transactionHistoryRepository.findByUserId(USER_ID).forEach(trans -> {
+        transactionHistoryRepository.findByUserId(Constant.USER_ID).forEach(trans -> {
             data.add(trans.toJson());
         });
         return data;

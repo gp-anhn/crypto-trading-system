@@ -30,9 +30,6 @@ public class WalletBalance {
 
     public JsonObject toJson() {
         JsonObject jsonObject = new JsonObject();
-
-        jsonObject.addProperty("id", id);
-        jsonObject.addProperty("userId", userId);
         jsonObject.addProperty("currency", currency);
         jsonObject.addProperty("balance", balance);
 

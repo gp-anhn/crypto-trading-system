@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
@@ -40,6 +41,8 @@ public class TransactionHistory {
         jsonObject.addProperty("action", action.name());
         jsonObject.addProperty("price", price);
         jsonObject.addProperty("amount", amount);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        jsonObject.addProperty("timestamp", formatter.format(timestamp));
 
         return jsonObject;
     }

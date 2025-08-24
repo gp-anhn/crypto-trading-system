@@ -1,5 +1,6 @@
 package com.example.cryptotradingsystem;
 
+import com.example.cryptotradingsystem.constants.Constant;
 import com.example.cryptotradingsystem.entities.WalletBalance;
 import com.example.cryptotradingsystem.enums.Currency;
 import com.example.cryptotradingsystem.repositories.WalletBalanceRepository;
@@ -17,12 +18,12 @@ public class CryptoTradingSystemApplication {
         SpringApplication.run(CryptoTradingSystemApplication.class, args);
     }
 
+
+    // Initiate user wallet, assuming User's initial wallet balance is 50,000 USDT
     @Bean
     CommandLineRunner init(WalletBalanceRepository walletBalanceRepository) {
         return args -> {
-            walletBalanceRepository.save(new WalletBalance( 1L, Currency.USDT.name(), 50000.0));
-            walletBalanceRepository.save(new WalletBalance(1L, Currency.BTCUSDT.name(), 0.0));
-            walletBalanceRepository.save(new WalletBalance(1L, Currency.ETHUSDT.name(), 0.0));
+            walletBalanceRepository.save(new WalletBalance(Constant.USER_ID, Currency.USDT.name(), 50000.0));
         };
     }
 }
