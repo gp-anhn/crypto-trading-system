@@ -1,5 +1,6 @@
 package com.example.cryptotradingsystem.entities;
 
+import com.google.gson.JsonObject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,5 +26,16 @@ public class AggregatedPrice {
     private LocalDateTime timestamp;
 
     public AggregatedPrice() {
+    }
+
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        jsonObject.addProperty("currency", currency);
+        jsonObject.addProperty("bestBid", bestBid);
+        jsonObject.addProperty("bestAsk", bestAsk);
+        jsonObject.addProperty("timestamp", String.valueOf(timestamp));
+
+        return jsonObject;
     }
 }

@@ -2,6 +2,7 @@ package com.example.cryptotradingsystem.services;
 
 import com.example.cryptotradingsystem.entities.AggregatedPrice;
 import com.example.cryptotradingsystem.repositories.AggregatedPriceRepository;
+import com.google.gson.JsonArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,13 @@ public class PriceService {
 
             return aggregatedPriceRepository.save(existing);
         }).orElseGet(() -> aggregatedPriceRepository.save(price));
+    }
+
+    public JsonArray getLatestPrice() {
+        JsonArray data = new JsonArray();
+        aggregatedPriceRepository.findAll().forEach(price -> {
+            data.add(price.toJson());
+        });
+        return data;
     }
 }
